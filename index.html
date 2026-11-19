@@ -1,0 +1,104 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>yanbase Portfolio</title>
+  <meta name="description" content="A sketchbook portfolio: drawings, prints and posters.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Love+Ya+Like+A+Sister&family=42dot+Sans:wght@400&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+
+  <!-- paper grain over everything -->
+  <svg class="grain" aria-hidden="true">
+    <filter id="grain-f"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+    <rect width="100%" height="100%" filter="url(#grain-f)"/>
+  </svg>
+
+  <header class="top">
+    <a href="#top" class="sig" aria-label="yanbase — to the top"><img src="assets/logos/mark.webp" alt="yanbase" width="473" height="260"></a>
+    <nav>
+      <a href="#about">about</a>
+      <a href="#works">works</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </header>
+
+  <!-- ============ 1. COVER ============ -->
+  <section class="cover" id="top">
+    <img class="cover__scribble" src="assets/bits/scribble1.webp" alt="" aria-hidden="true">
+
+
+    <p class="cover__kicker hand">sketchbook no. <span class="circled">7</span></p>
+
+    <h1 class="cut cover__title" data-cut="PORTFOLIO" data-mix="cl bg cr cl bg cr cl bg cl" aria-label="Portfolio"></h1>
+
+    <p class="cover__sub hand">
+      drawings, prints, posters &amp; other small accidents
+      <span class="cover__year">2024 — <span class="circled">2026</span></span>
+    </p>
+
+    <p class="cover__hint hand">click a letter ↺</p>
+
+    <a href="#about" class="cover__down">
+      <span class="hand">turn the page</span>
+      <i class="stroke stroke--arrow"></i>
+    </a>
+  </section>
+
+  <!-- ============ 2. NOTES / ABOUT ============ -->
+  <section class="notes" id="about">
+    <h2 class="cut cut--md" data-cut="ABOUT" data-mix="cr" aria-label="About"></h2>
+
+    <div class="notes__grid">
+      <article class="diary">
+        <p class="diary__name">Yanbase <span>/ designer and emerging artist</span></p>
+        <p class="diary__text">
+          I design <mark class="u">brand identities</mark>, interfaces, posters and conceptual graphics.
+          Sketching is the foundation I use to search for ideas.
+        </p>
+        <p class="diary__text">
+          I combine precise digital tools with the expressiveness of hand-drawn graphics.
+          In design, I value simplicity, a deep focus on meaning and thoughtful composition.
+        </p>
+        <p class="diary__text">
+          Open to collaborating on independent projects, large-scale commissions
+          and <span class="red">bold challenges</span>.
+        </p>
+      </article>
+
+      <aside class="todo">
+        <p class="todo__title">what I do:</p>
+        <ul>
+          <li><i class="stroke stroke--cross"></i>brand identity</li>
+          <li><i class="stroke stroke--cross"></i>interfaces</li>
+          <li><i class="stroke stroke--cross"></i>posters</li>
+          <li><i class="stroke stroke--cross"></i>conceptual graphics</li>
+          <li><i class="stroke stroke--cross"></i>sketching and illustration</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ 3. THE BOOK ============ -->
+  <section class="works" id="works">
+    <h2 class="cut cut--md" data-cut="WORKS" data-mix="bg cl bg cl bg" aria-label="Works"></h2>
+    <div class="works__list" id="worksList"></div>
+  </section>
+
+  <!-- ============ 4. CONTACT ============ -->
+  <section class="contact" id="contact">
+    <h2 class="cut cut--md" data-cut="HELLO!" data-mix="cl bg cl bg cl cr" aria-label="Hello!"></h2>
+    <p class="contact__lead hand">commissions, collabs, or just to say you liked the horses —</p>
+    <a class="contact__mail" href="mailto:email@example.com">email@example.com</a>
+
+    <div class="contact__links">
+      <a class="logo" href="#" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/logos/insta.webp" alt="Instagram" width="276" height="266"></a>
+      <a class="logo" href="#" target="_blank" rel="noopener" aria-label="Telegram"><img src="assets/logos/telegram.webp" alt="Telegram" width="333" height="277"></a>
+      <a class="logo" href="#" target="_blank" rel="noopener" aria-label="Behance"><img src="assets/logos/behance.webp" alt="Behance" width="293" height="280"></a>
+    </div>
+
+    <footer class="foot hand">made by hand (mostly) · yanbase · 2026</footer>
+  </section>
+
+  <script src="main.js"></script>
+
+</body></html>

@@ -1,0 +1,306 @@
+/* ---------- fonts (from the asset pack) ---------- */
+@font-face { font-family: "Carlos"; src: url(assets/fonts/carlos.ttf) format("truetype"); font-display: swap; }
+@font-face { font-family: "Carlos"; src: url(assets/fonts/carlos-bold.ttf) format("truetype"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "WestCoast"; src: url(assets/fonts/westcoast.ttf) format("truetype"); font-display: swap; }
+@font-face { font-family: "Marker"; src: url(assets/fonts/marker.ttf) format("truetype"); font-display: swap; }
+@font-face { font-family: "SketchyTimes"; src: url(assets/fonts/sketchytimes.ttf) format("truetype"); font-display: swap; }
+
+:root {
+  --paper: #ece3d1;
+  --page: #f6f5f1;
+  --ink: #161412;
+  --ink-soft: #3b3631;
+  --red: #c0141c;
+  --red-deep: #9e0d14;
+  --leftpage: #efe8dc;  /* left page base colour */
+  --plaque: #f3eee5;   /* plaque base colour */
+
+  /* the custom handwriting fonts are Latin-only; Caveat catches Cyrillic */
+  --hand: "Carlos", "Caveat", cursive;
+  --hand-2: "WestCoast", "Caveat", cursive;
+  --marker: "Marker", "Caveat", cursive;
+  --serif: "EB Garamond", Georgia, serif;
+  --sans: "42dot Sans", "Helvetica Neue", Arial, sans-serif;
+
+  --gutter: clamp(16px, 4vw, 56px);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: #fff;
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.45;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+
+.hand { font-family: var(--hand); }
+/* the Carlos font has a broken "re" ligature — keep ligatures off everywhere */
+body, button { font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0, "dlig" 0, "calt" 0; }
+.hand-red { font-family: var(--hand); color: var(--red); }
+.red { color: var(--red); }
+
+.grain {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 100; opacity: .09; mix-blend-mode: multiply;
+}
+
+/* ---------- crayon strokes, recoloured red via mask ---------- */
+.stroke {
+  display: inline-block;
+  background: var(--red);
+  -webkit-mask: var(--m) center / contain no-repeat;
+          mask: var(--m) center / contain no-repeat;
+}
+.stroke--arrow   { --m: url(assets/strokes/arrow.webp); }
+.stroke--star    { --m: url(assets/strokes/star.webp); }
+.stroke--cross   { --m: url(assets/strokes/cross.webp); }
+.stroke--ellipse { --m: url(assets/strokes/ellipse.webp); }
+.stroke--under   { --m: url(assets/strokes/under1.webp); }
+.stroke--spiral  { --m: url(assets/strokes/spiral.webp); }
+
+/* circled word: crayon ellipse drawn around it */
+.circled { position: relative; display: inline-block; padding: 0 .25em; }
+.circled::after {
+  content: ""; position: absolute; inset: -.35em -.45em -.3em;
+  background: var(--red);
+  -webkit-mask: url(assets/strokes/ellipse.webp) center / 100% 100% no-repeat;
+          mask: url(assets/strokes/ellipse.webp) center / 100% 100% no-repeat;
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+
+/* crayon underline */
+.u { background: none; color: inherit; position: relative; white-space: nowrap; }
+.u::after {
+  content: ""; position: absolute; left: -3%; right: -3%; bottom: -.12em; height: .3em;
+  background: var(--red);
+  -webkit-mask: url(assets/strokes/under1.webp) center / 100% 100% no-repeat;
+          mask: url(assets/strokes/under1.webp) center / 100% 100% no-repeat;
+}
+
+/* ---------- header ---------- */
+.top {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px var(--gutter);
+  font-family: var(--hand); font-size: 22px;
+  background: #fff;
+  pointer-events: none;
+}
+.top a { pointer-events: auto; text-decoration: none; position: relative; }
+.top .sig { display: block; }
+.top .sig img { height: clamp(30px, 3.4vw, 44px); width: auto; }
+.top nav { display: flex; gap: clamp(14px, 3vw, 34px); background: rgba(255, 255, 255, .85); padding: 2px 12px; border-radius: 3px; }
+.top nav a::after {
+  content: ""; position: absolute; left: -6%; right: -6%; bottom: -2px; height: 8px;
+  background: var(--red);
+  -webkit-mask: url(assets/strokes/under2.webp) center / 100% 100% no-repeat;
+          mask: url(assets/strokes/under2.webp) center / 100% 100% no-repeat;
+  transform: scaleX(0); transform-origin: left; transition: transform .35s ease;
+}
+.top nav a:hover::after, .top nav a:focus-visible::after { transform: scaleX(1); }
+
+/* ---------- cut-out letter "font" ---------- */
+.cut {
+  margin: 0;
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end;
+  gap: .04em;
+  --h: clamp(64px, 12vw, 190px);
+  line-height: 0;
+}
+.cut--md { --h: clamp(52px, 8vw, 120px); margin-bottom: .3em; }
+.cut .word { display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; margin: 0 .25em; }
+.cut .ltr {
+  height: var(--h);
+  width: auto;
+  transform: translateY(var(--dy, 0)) rotate(var(--r, 0deg)) scale(var(--s, 1));
+  transition: transform .3s cubic-bezier(.3, 1.6, .5, 1);
+  cursor: pointer;
+  user-select: none; -webkit-user-drag: none;
+}
+.cut .ltr[data-set="cr"] { mix-blend-mode: multiply; filter: none; }
+.cut .ltr[data-set="bg"] { height: calc(var(--h) * .86); }
+.cut .ltr:hover { transform: translateY(calc(var(--dy, 0px) - 8px)) rotate(calc(var(--r, 0deg) * -1.4)) scale(calc(var(--s, 1) * 1.06)); }
+.cut .ltr.in { animation: drop .7s cubic-bezier(.2, 1.4, .4, 1) both; animation-delay: var(--d, 0s); }
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-60px) rotate(calc(var(--r, 0deg) * 4)) scale(1.2); }
+}
+
+/* ---------- 1. cover ---------- */
+.cover {
+  position: relative; min-height: 100vh; min-height: 100svh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 90px var(--gutter) 70px;
+  overflow: hidden;
+}
+.cover__scribble {
+  position: absolute; width: min(70vw, 760px); left: 50%; top: 50%;
+  transform: translate(-46%, -52%) rotate(-8deg);
+  opacity: .32; mix-blend-mode: multiply; filter: hue-rotate(-12deg) saturate(1.3);
+  pointer-events: none;
+}
+.cover__kicker { font-size: clamp(22px, 2.4vw, 30px); margin: 0 0 18px; transform: rotate(-3deg); position: relative; }
+.cover__title { position: relative; z-index: 2; max-width: 1300px; }
+.cover__sub {
+  position: relative; z-index: 2; text-align: center;
+  font-size: clamp(22px, 2.6vw, 34px); margin: 26px 0 0; max-width: 34ch; line-height: 1.25;
+}
+.cover__year { display: block; margin-top: 8px; font-family: var(--hand-2); color: var(--red); font-size: 1.15em; }
+.cover__hint {
+  position: absolute; right: 7vw; top: 30%; z-index: 3;
+  color: var(--red); font-size: 22px; transform: rotate(8deg); margin: 0;
+}
+.cover__down {
+  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 24px; z-index: 3; white-space: nowrap;
+}
+.cover__down .stroke { width: 90px; height: 38px; transform: rotate(-90deg) scaleY(-1); animation: nudge 1.6s ease-in-out infinite; }
+@keyframes nudge { 50% { translate: 0 8px; } }
+
+
+/* ---------- 2. notes ---------- */
+section { position: relative; }
+.notes { padding: clamp(80px, 12vw, 150px) var(--gutter) clamp(60px, 8vw, 110px); }
+.notes__grid {
+  max-width: 1100px; margin: 30px auto 0;
+  display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(30px, 5vw, 70px); align-items: start;
+}
+.diary {
+  position: relative;
+  padding: 0;
+}
+/* about: the original Carlos handwriting */
+.diary__name { font-family: var(--hand-2); font-size: clamp(40px, 4.4vw, 58px); line-height: 1; margin: 0 0 22px; }
+.diary__name span { display: block; font-family: var(--hand); font-size: .5em; color: var(--red); margin-top: 10px; }
+.diary__text { font-family: var(--hand); font-size: clamp(22px, 2.2vw, 29px); line-height: 1.5; margin: 0 0 18px; }
+.crossed { position: relative; color: var(--ink-soft); }
+.crossed::after {
+  content: ""; position: absolute; left: -6%; right: -6%; top: 30%; height: .5em;
+  background: var(--red);
+  -webkit-mask: url(assets/strokes/hatchline.webp) center / 100% 100% no-repeat;
+          mask: url(assets/strokes/hatchline.webp) center / 100% 100% no-repeat;
+}
+
+
+.todo { padding-top: 10px; }
+.todo__title { font-family: var(--hand); font-size: 32px; margin: 0 0 8px; color: var(--red); transform: rotate(-2deg); }
+.todo ul { list-style: none; margin: 0; padding: 0; font-family: var(--hand); font-size: 27px; }
+.todo li { display: flex; align-items: center; gap: 12px; padding: 4px 0; }
+.todo li .stroke { width: 26px; height: 22px; flex: none; }
+.todo__off { color: var(--ink-soft); text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 3px; }
+.todo__off .stroke { opacity: .25; }
+
+
+/* ---------- 3. works ---------- */
+.works {
+  padding: clamp(70px, 10vw, 130px) var(--gutter) clamp(70px, 9vw, 120px);
+  background: #fff;
+}
+.works__note { text-align: center; font-size: 22px; color: var(--ink-soft); margin: 0 0 clamp(26px, 4vw, 50px); }
+
+.works__list { max-width: 1180px; margin: clamp(30px, 5vw, 60px) auto 0; display: grid; gap: clamp(70px, 10vw, 140px); }
+.work {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(28px, 6vw, 90px); align-items: center;
+}
+.work--flip .work__text { order: 2; }
+.work__text { display: flex; flex-direction: column; min-width: 0; }
+.work__art { margin: 0; display: grid; gap: 10px; justify-items: center; }
+.work__art img { max-height: 78vh; width: auto; max-width: 100%; object-fit: contain; }
+.work__art--blend img { mix-blend-mode: multiply; }
+/* several images of one work, same height, side by side */
+.work__set { display: flex; align-items: flex-end; gap: clamp(16px, 3vw, 40px); width: 100%; }
+.work__set img { flex: 1 1 0; min-width: 0; height: auto; max-height: 70vh; object-fit: contain; }
+.work__art figcaption { justify-self: end; font-family: var(--hand); color: var(--red); font-size: 18px; }
+
+.pg-num { font-family: var(--hand-2); color: var(--red); font-size: clamp(22px, 3vw, 38px); margin: 0 0 3%; line-height: 1; }
+.pg-title {
+  font-family: "Love Ya Like A Sister", "Marker", cursive; font-weight: 400;
+  font-size: clamp(40px, 4.6vw, 66px); line-height: .95; letter-spacing: -.01em;
+  margin: 0; color: #141210;
+}
+.pg-sub { font-family: var(--sans); font-size: clamp(16px, 1.3vw, 19px); line-height: 1.2; letter-spacing: -.02em; color: var(--ink); margin: 6px 0 34px; }
+
+/* a scrap of paper with the details on it */
+.plaque {
+  position: relative; isolation: isolate;
+  align-self: flex-start; width: 78%;
+  background: var(--plaque);
+  padding: 5% 7% 5.5%;
+  transform: rotate(var(--tilt, -1deg));
+  margin-bottom: 0;
+}
+.plaque::before { /* same idea: texture as an overlay */
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--plq, none) center / cover;
+  filter: grayscale(1) contrast(1.2);
+  mix-blend-mode: multiply; opacity: .25;
+}
+.plaque p { margin: 0; font-family: var(--hand); font-size: clamp(14px, 1.5vw, 21px); line-height: 1.45; color: var(--ink); }
+.plaque b { font-weight: 400; color: var(--red); display: inline-block; min-width: 4.4em; }
+
+.desc {
+  font-family: var(--sans); font-size: clamp(13px, .95vw, 14.5px); line-height: 1.45; letter-spacing: -.01em;
+  max-width: 44em;
+  margin: 34px 0 0; color: var(--ink);
+}
+
+/* ---------- 4. contact ---------- */
+.contact {
+  padding: clamp(80px, 12vw, 150px) var(--gutter) 40px;
+  text-align: center;
+}
+.contact__lead { font-size: clamp(22px, 2.6vw, 32px); margin: 10px auto 18px; max-width: 30ch; }
+.contact__mail {
+  display: inline-block; position: relative;
+  font-family: var(--hand-2); font-size: clamp(34px, 6vw, 76px); color: var(--red); text-decoration: none;
+  word-break: break-all;
+}
+.contact__mail::after {
+  content: ""; position: absolute; left: -3%; right: -3%; bottom: -.1em; height: .3em;
+  background: var(--ink);
+  -webkit-mask: url(assets/strokes/under3.webp) center / 100% 100% no-repeat;
+          mask: url(assets/strokes/under3.webp) center / 100% 100% no-repeat;
+  transform: scaleX(.0); transform-origin: left; transition: transform .45s ease;
+}
+.contact__mail:hover::after { transform: scaleX(1); }
+
+.contact__links { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(14px, 3vw, 40px); margin: clamp(40px, 6vw, 70px) 0; }
+/* hand-drawn social logos */
+.contact__links { align-items: center; gap: clamp(18px, 3vw, 40px); }
+.logo { display: block; height: clamp(35px, 4.5vw, 60px); transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
+.logo img { height: 100%; width: auto; }
+.logo:nth-child(1) { transform: rotate(-4deg); }
+.logo:nth-child(2) { transform: rotate(3deg); }
+.logo:nth-child(3) { transform: rotate(-2deg); }
+.logo:hover, .logo:focus-visible { transform: rotate(0) scale(1.1); }
+.logo:focus-visible { outline: 2px dashed var(--red); outline-offset: 8px; }
+.foot { font-size: 20px; color: var(--ink-soft); padding-top: 30px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 600px) {
+  .cover__title { --h: 10.5vw; }
+  .cover__title .ltr[data-set="cl"] { height: calc(var(--h) * .95); }
+  .cover__scribble { width: 110vw; }
+  }
+@media (max-width: 860px) {
+  .work { grid-template-columns: 1fr; }
+  .work--flip .work__text { order: 0; }
+  .work__art img { max-height: 70vh; }
+  .notes__grid { grid-template-columns: 1fr; }
+  .cover__hint { top: auto; bottom: 90px; right: 6vw; font-size: 18px; }
+  .plaque p { font-size: 18px; }
+  .pg-title { font-size: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+}
